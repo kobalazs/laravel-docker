@@ -29,6 +29,11 @@ COPY --chown=www-data:www-data ./src /srv/app
 RUN chown -R www-data:www-data /srv/app/storage
 
 COPY --from=composer:1.8 /usr/bin/composer /usr/bin/composer
+RUN composer global require laravel/installer \
+  && echo 'export PATH="$HOME/.composer/vendor/bin:$PATH"' >> $HOME/.bashrc
+
+RUN curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash - \
+  && sudo apt-get install -y nodejs
 
 EXPOSE 80
 
